@@ -7,9 +7,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import javax.inject.Inject;
+
 import squirrel.pp.ua.arrive.R;
+import squirrel.pp.ua.arrive.inject.DaggerMainActivityComponent;
+import squirrel.pp.ua.arrive.inject.MainActivityComponent;
+import squirrel.pp.ua.arrive.presenter.MainPresenter;
 
 public class MainActivity extends AppCompatActivity {
+    @Inject
+    MainPresenter mainPresenter;
+    private MainActivityComponent activityComponent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initToolbar();
         initFActionButton();
+        buildComponent();
+        activityComponent.inject(this);
+
     }
 
     private void initToolbar() {
@@ -33,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+    }
+
+    private void buildComponent() {
+        activityComponent = DaggerMainActivityComponent.create();
     }
 
 }
