@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="squirrel.pp.ua.arrive.view.MainActivity">
+    <item
+        android:id="@+id/sTrace"
+        android:actionLayout="@layout/switch_elem"
+        android:showAsAction="always"
+        android:title="" />
+    <item
+        android:id="@+id/action_settings"
+        android:title="@string/mi_settings"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_place"
+        android:title="@string/mi_places"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_about"
+        android:title="@string/mi_about"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_rate"
+        android:title="@string/mi_rate"
+        app:showAsAction="never" />
+</menu>

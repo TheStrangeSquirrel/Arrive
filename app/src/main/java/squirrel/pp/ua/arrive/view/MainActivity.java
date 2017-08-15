@@ -11,13 +11,17 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSeekBar;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -32,7 +36,7 @@ import squirrel.pp.ua.arrive.presenter.MainPresenter;
 public class MainActivity extends AppCompatActivity implements MainView {
 
     @Inject
-    MainPresenter mainPresenter;
+    MainPresenter presenter;
     private MainActivityComponent activityComponent;
     private ViewHolder views;
     private GoogleMap map;
@@ -47,11 +51,18 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
         buildComponent();
         activityComponent.inject(this);
+        presenter.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void switchEnableTraceTB(boolean enable) {
+        views.sTrace.setEnabled(enable);
     }
 
     private void findViews() {
         views.mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fMap);
         views.toolbar = (Toolbar) findViewById(R.id.toolbar);
+        views.sTrace = views.toolbar.findViewById(R.id.sTrace);
         views.fActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
         views.distance = (TextView) findViewById(R.id.tvDistance);
         views.distanceRegulator = (AppCompatSeekBar) findViewById(R.id.sbDistance);
@@ -91,11 +102,19 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
                 checkAndTryTakeLocationPermission();
                 map.setMyLocationEnabled(true);
-                map.getUiSettings().setMyLocationButtonEnabled(true);
-
+                UiSettings uiSettings = map.getUiSettings();
+//                uiSettings.setMyLocationButtonEnabled(true);
+                uiSettings.setMapToolbarEnabled(false);
                 map.moveCamera(CameraUpdateFactory.newLatLng(sydney));//TODO TEST
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = new MenuInflater(this);
+        inflater.inflate(R.menu.main, menu);
+        return true;
     }
 
     public void checkAndTryTakeLocationPermission() {
@@ -140,9 +159,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
     private class ViewHolder {
         SupportMapFragment mapFragment;
         Toolbar toolbar;
+        Switch sTrace;
         FloatingActionButton fActionButton;
         AppCompatSeekBar distanceRegulator;
         TextView distance;
     }
+
 
 }

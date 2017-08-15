@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="b_trace">Следить</string>
+    <string name="mi_settings">Ностройки</string>
+    <string name="mi_places">Места</string>
+    <string name="mi_about">О Программе</string>
+    <string name="mi_rate">Оценить приложение</string>
+</resources>

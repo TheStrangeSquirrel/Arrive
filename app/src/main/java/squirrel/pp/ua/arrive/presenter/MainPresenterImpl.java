@@ -1,13 +1,17 @@
 package squirrel.pp.ua.arrive.presenter;
 
+import android.os.Bundle;
+
+import javax.inject.Inject;
+
+import squirrel.pp.ua.arrive.view.MainView;
+
 public class MainPresenterImpl implements MainPresenter {
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-
-    }
+    @Inject
+    MainView view;
 
     @Override
-    public void setMyLocationEnabled(boolean enabled) {
+    public void onCreate(Bundle savedInstanceState) {
 
     }
 }

@@ -1,7 +1,11 @@
 package squirrel.pp.ua.arrive.presenter;
 
-public interface MainPresenter {
-    void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults);
+import android.os.Bundle;
 
-    void setMyLocationEnabled(boolean enabled);
+public interface MainPresenter {
+    void onCreate(Bundle savedInstanceState);
+
+//    void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults);
+//    void setMyLocationEnabled(boolean enabled);
+
 }
