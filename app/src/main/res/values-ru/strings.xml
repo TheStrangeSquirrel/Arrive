@@ -5,4 +5,9 @@
     <string name="mi_places">Места</string>
     <string name="mi_about">О Программе</string>
     <string name="mi_rate">Оценить приложение</string>
+    <string name="pref_AlarmCategory">Настройки будильника</string>
+    <string name="pref_Vibro">Вибрация</string>
+    <string name="pref_loopPlay">Зациклить воспроизведение</string>
+    <string name="pref_timePlays">Время воспроизведения</string>
+    <string name="pref_typeMap">Тип Карты</string>
 </resources>

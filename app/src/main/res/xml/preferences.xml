@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright © 2016, Malyshev Vladislav,  thestrangesquirrel@gmail.com. This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/ or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:defaultValue="1"
+        android:entries="@array/entriesTypeArr"
+        android:entryValues="@array/entryValuesTypeArr"
+        android:key="pref_typeMap"
+        android:title="@string/pref_typeMap" />
+    <PreferenceCategory android:title="@string/pref_AlarmCategory">
+        <RingtonePreference
+            android:key="pref_ringtone"
+            android:title="@string/pref_ringtone" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_vibro"
+            android:title="@string/pref_Vibro" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_loopPlay"
+            android:title="@string/pref_loopPlay" />
+        <EditTextPreference
+            android:defaultValue="30"
+            android:enabled="false"
+            android:inputType="number"
+            android:key="pref_timePlays"
+            android:numeric="integer"
+            android:selectAllOnFocus="true"
+            android:singleLine="false"
+            android:title="@string/pref_timePlays" />
+    </PreferenceCategory>
+</PreferenceScreen>

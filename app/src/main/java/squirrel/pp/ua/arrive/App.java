@@ -3,27 +3,27 @@ package squirrel.pp.ua.arrive;
 import android.app.Application;
 
 import squirrel.pp.ua.arrive.inject.AppComponent;
-import squirrel.pp.ua.arrive.inject.AppModule;
-import squirrel.pp.ua.arrive.inject.DaggerAppComponent;
+import squirrel.pp.ua.arrive.inject.ComponentManager;
 
 
 public class App extends Application {
-    private static AppComponent appComponent;
+    private static ComponentManager componentManager;
 
-    public static AppComponent getAppComponent() {
-        return appComponent;
+    public static ComponentManager getComponentManager() {
+        return componentManager;
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
         initAppComponent();
+
     }
 
     private void initAppComponent() {
-        appComponent = DaggerAppComponent.builder()
-                .appModule(new AppModule(this)).
-                        build();
+        componentManager = new ComponentManager(this);
+        AppComponent appComponent = componentManager.getAppComponent();
+
     }
 
 }

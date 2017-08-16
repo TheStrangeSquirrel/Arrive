@@ -1,5 +1,8 @@
 package squirrel.pp.ua.arrive.view;
 
-public interface MainView {
+import android.app.Activity;
+
+public interface MapView {
+    Activity getActivity();
     void switchEnableTraceTB(boolean enable);
 }

@@ -1,6 +1,7 @@
 package squirrel.pp.ua.arrive.view;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,6 +14,7 @@ import android.support.v7.widget.AppCompatSeekBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -28,18 +30,18 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import javax.inject.Inject;
 
+import squirrel.pp.ua.arrive.App;
 import squirrel.pp.ua.arrive.R;
-import squirrel.pp.ua.arrive.inject.DaggerMainActivityComponent;
-import squirrel.pp.ua.arrive.inject.MainActivityComponent;
+import squirrel.pp.ua.arrive.inject.MapComponent;
 import squirrel.pp.ua.arrive.presenter.MainPresenter;
 
-public class MainActivity extends AppCompatActivity implements MainView {
+public class MapActivity extends AppCompatActivity implements MapView {
 
     @Inject
     MainPresenter presenter;
-    private MainActivityComponent activityComponent;
-    private ViewHolder views;
+
     private GoogleMap map;
+    private ViewHolder views;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +51,13 @@ public class MainActivity extends AppCompatActivity implements MainView {
         findViews();
         initViews();
 
-        buildComponent();
-        activityComponent.inject(this);
+        inject();
         presenter.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public Activity getActivity() {
+        return this;
     }
 
     @Override
@@ -106,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 //                uiSettings.setMyLocationButtonEnabled(true);
                 uiSettings.setMapToolbarEnabled(false);
                 map.moveCamera(CameraUpdateFactory.newLatLng(sydney));//TODO TEST
+
             }
         });
     }
@@ -152,8 +159,15 @@ public class MainActivity extends AppCompatActivity implements MainView {
         return false;
     }
 
-    private void buildComponent() {
-        activityComponent = DaggerMainActivityComponent.create();
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        presenter.onOptionsItemSelected(item.getItemId());
+        return true;
+    }
+
+    private void inject() {
+        MapComponent mapComponent = App.getComponentManager().getMapComponent(this);
+        mapComponent.inject(this);
     }
 
     private class ViewHolder {

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="squirrel.pp.ua.arrive.view.MainActivity">
+    tools:context="squirrel.pp.ua.arrive.view.MapActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -27,6 +27,8 @@
         android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
         android:background="#e3f9ea"
+        android:max="50000"
+        android:min="100"
         android:progressDrawable="@drawable/red_scrubber_progress"
         android:thumb="@drawable/red_scrubber_control"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -65,9 +67,6 @@
         android:id="@+id/tvDistance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/fMap"
         app:layout_constraintTop_toTopOf="parent" />

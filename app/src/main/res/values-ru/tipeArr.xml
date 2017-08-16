@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="entriesTypeArr">
+        <item>Стандартная</item>
+        <item>Спутниковая</item>
+        <item>Карта местности</item>
+        <item>Гибридная</item>
+    </string-array>
+</resources>
