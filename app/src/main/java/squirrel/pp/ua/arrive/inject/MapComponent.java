@@ -8,6 +8,5 @@ import squirrel.pp.ua.arrive.view.MapActivity;
 @MapScope
 public interface MapComponent {
     void inject(MapActivity mapActivity);
-
     void inject(MapPresenterImpl presenter);
 }

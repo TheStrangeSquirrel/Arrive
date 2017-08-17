@@ -19,14 +19,8 @@ import android.view.View;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.UiSettings;
-import com.google.android.gms.maps.model.CircleOptions;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import javax.inject.Inject;
 
@@ -52,6 +46,8 @@ public class MapActivity extends AppCompatActivity implements MapView {
         initViews();
 
         inject();
+
+        checkAndTryTakeLocationPermission();
         presenter.onCreate(savedInstanceState);
     }
 
@@ -96,25 +92,7 @@ public class MapActivity extends AppCompatActivity implements MapView {
     }
 
     private void initMap() {
-        views.mapFragment.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(GoogleMap googleMap) {
-                map = googleMap;
-
-                // Add a marker in Sydney and move the camera
-                LatLng sydney = new LatLng(-34, 151);
-                map.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-                map.addCircle(new CircleOptions().center(sydney).radius(100));
-
-                checkAndTryTakeLocationPermission();
-                map.setMyLocationEnabled(true);
-                UiSettings uiSettings = map.getUiSettings();
-//                uiSettings.setMyLocationButtonEnabled(true);
-                uiSettings.setMapToolbarEnabled(false);
-                map.moveCamera(CameraUpdateFactory.newLatLng(sydney));//TODO TEST
-
-            }
-        });
+        views.mapFragment.getMapAsync(googleMap -> presenter.OnMapReadyCallback(googleMap));
     }
 
     @Override

@@ -5,13 +5,19 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.google.android.gms.maps.GoogleMap;
+
 import javax.inject.Inject;
 
+import squirrel.pp.ua.arrive.App;
 import squirrel.pp.ua.arrive.R;
+import squirrel.pp.ua.arrive.interactor.MapInteractor;
 import squirrel.pp.ua.arrive.view.MapView;
 import squirrel.pp.ua.arrive.view.SettingsActivity;
 
 public class MapPresenterImpl implements MainPresenter {
+    @Inject
+    MapInteractor mapInteractor;
     private MapView view;
 
     @Inject
@@ -25,8 +31,7 @@ public class MapPresenterImpl implements MainPresenter {
     }
 
     private void inject() {
-//        MapComponent mapComponent = App.getComponentManager().getMapComponent(null);
-//        mapComponent.inject(this);
+        App.getComponentManager().getMapIteratorComponent().inject(this);
     }
 
     @Override
@@ -49,6 +54,12 @@ public class MapPresenterImpl implements MainPresenter {
                 break;
         }
         context.startActivity(intent);
+    }
+
+
+    @Override
+    public void OnMapReadyCallback(GoogleMap googleMap) {
+        mapInteractor.initMap(googleMap);
     }
 
 }

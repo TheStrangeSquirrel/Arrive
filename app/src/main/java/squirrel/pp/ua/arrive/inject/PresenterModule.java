@@ -11,7 +11,6 @@ import squirrel.pp.ua.arrive.view.MapView;
 @Module
 @MapScope
 public class PresenterModule {
-
     @NonNull
     @Provides
     public MainPresenter getMainPresenter(MapView view) {

@@ -3,4 +3,5 @@
     <color name="colorPrimary">#3b9c50</color>
     <color name="colorPrimaryDark">#1a7031</color>
     <color name="colorAccent">#d0e419</color>
+    <color name="fillTargetRadius">#1ce9f4</color>
 </resources>
