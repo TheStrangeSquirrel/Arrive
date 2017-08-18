@@ -7,8 +7,10 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import squirrel.pp.ua.arrive.utils.PreferencesUtils;
 
 @Module
+@Singleton
 public class AppModule {
     private Context context;
 
@@ -17,9 +19,16 @@ public class AppModule {
     }
 
     @NonNull
-    @Singleton
     @Provides
+    @Singleton
     Context getContext() {
         return this.context;
+    }
+
+    @NonNull
+    @Provides
+    @Singleton
+    PreferencesUtils preferences() {
+        return new PreferencesUtils(context);
     }
 }

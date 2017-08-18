@@ -4,5 +4,8 @@ import android.app.Activity;
 
 public interface MapView {
     Activity getActivity();
-    void switchEnableTraceTB(boolean enable);
+
+    void switchCheckedTraceTB(boolean enable);
+
+    void massageSetDestination();
 }

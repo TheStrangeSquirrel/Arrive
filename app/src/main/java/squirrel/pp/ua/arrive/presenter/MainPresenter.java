@@ -9,5 +9,9 @@ public interface MainPresenter {
 
     void onOptionsItemSelected(int id);
 
-    void OnMapReadyCallback(GoogleMap googleMap);
+    void onMapReadyCallback(GoogleMap googleMap);
+
+    void distanceChanged(int distance);
+
+    void onTraceSwitch(boolean b);
 }

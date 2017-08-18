@@ -5,6 +5,7 @@
     <item
         android:id="@+id/sTrace"
         android:actionLayout="@layout/switch_elem"
+        android:checked="false"
         android:showAsAction="always"
         android:title="" />
     <item

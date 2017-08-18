@@ -12,6 +12,7 @@
     <PreferenceCategory android:title="@string/pref_AlarmCategory">
         <RingtonePreference
             android:key="pref_ringtone"
+            android:showSilent="true"
             android:title="@string/pref_ringtone" />
         <CheckBoxPreference
             android:defaultValue="true"

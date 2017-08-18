@@ -1,6 +1,7 @@
 package squirrel.pp.ua.arrive.interactor;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -16,21 +17,34 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import javax.inject.Inject;
 
+import squirrel.pp.ua.arrive.App;
+import squirrel.pp.ua.arrive.NoSetDestinationException;
 import squirrel.pp.ua.arrive.R;
+import squirrel.pp.ua.arrive.TrackService;
+import squirrel.pp.ua.arrive.utils.PreferencesUtils;
 
 public class MapInteractor {
+
+    @Inject
+    PreferencesUtils preferences;
+
     Context context;
 
     private GoogleMap map;
     private TargetDestination destination;
+    private int distance = 1000;
 
     @Inject
     public MapInteractor(Context context) {
         this.context = context;
+        App.getComponentManager().getAppComponent().inject(this);
     }
 
     public void initMap(GoogleMap googleMap) throws SecurityException {
         map = googleMap;
+//        int typeMap = preferences.getTypeMap();
+        int typeMap = 4;//TODO
+        map.setMapType(typeMap);
 
         map.setMyLocationEnabled(true);
         UiSettings uiSettings = map.getUiSettings();
@@ -38,7 +52,7 @@ public class MapInteractor {
         initCamera();
         map.setOnMapLongClickListener(latLng -> {
             if (destination == null) {
-                destination = new TargetDestination(googleMap, latLng, 2000);
+                destination = new TargetDestination(googleMap, latLng, distance);
             }
             destination.setPosition(latLng);
         });
@@ -57,11 +71,36 @@ public class MapInteractor {
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
     }
 
+    public void distanceChanged(int distance) {
+        this.distance = distance;
+        if (destination != null) {
+            destination.serRadius(distance);
+        }
+    }
+
+    public void traceOn() throws NoSetDestinationException {
+        if (destination == null) {
+            throw new NoSetDestinationException();
+        }
+        Intent intent = new Intent(context, TrackService.class);
+        intent.putExtra("TargetPosition", destination.position);
+        intent.putExtra("TargetRadius", destination.radius);
+        context.startService(intent);
+    }
+
+    public void traceOff() {
+
+    }
+
     private static class TargetDestination {
+        private LatLng position;
+        private double radius;
         private Marker marker;
         private Circle circle;
 
         public TargetDestination(GoogleMap map, LatLng position, double radiusCircle) {
+            this.position = position;
+            this.radius = radiusCircle;
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(position);
 //            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker));
@@ -72,17 +111,18 @@ public class MapInteractor {
             circleOptions.fillColor(R.color.fillTargetRadius);
             circleOptions.strokeWidth(1);
 
-
             marker = map.addMarker(markerOptions);
             circle = map.addCircle(circleOptions);
         }
 
         private void setPosition(LatLng position) {
+            this.position = position;
             marker.setPosition(position);
             circle.setCenter(position);
         }
 
-        private void serRadius(double radius) {
+        private void serRadius(int radius) {
+            this.radius = radius;
             circle.setRadius(radius);
         }
     }

@@ -10,6 +10,7 @@ import com.google.android.gms.maps.GoogleMap;
 import javax.inject.Inject;
 
 import squirrel.pp.ua.arrive.App;
+import squirrel.pp.ua.arrive.NoSetDestinationException;
 import squirrel.pp.ua.arrive.R;
 import squirrel.pp.ua.arrive.interactor.MapInteractor;
 import squirrel.pp.ua.arrive.view.MapView;
@@ -18,6 +19,7 @@ import squirrel.pp.ua.arrive.view.SettingsActivity;
 public class MapPresenterImpl implements MainPresenter {
     @Inject
     MapInteractor mapInteractor;
+
     private MapView view;
 
     @Inject
@@ -58,8 +60,30 @@ public class MapPresenterImpl implements MainPresenter {
 
 
     @Override
-    public void OnMapReadyCallback(GoogleMap googleMap) {
+    public void onMapReadyCallback(GoogleMap googleMap) {
         mapInteractor.initMap(googleMap);
+    }
+
+    @Override
+    public void distanceChanged(int distance) {
+        mapInteractor.distanceChanged(distance);
+    }
+
+    @Override
+    public void onTraceSwitch(boolean b) {
+        if (b) {
+            tryTraceOn();
+
+        } else
+            mapInteractor.traceOff();
+    }
+
+    private void tryTraceOn() {
+        try {
+            mapInteractor.traceOn();
+        } catch (NoSetDestinationException e) {
+            view.massageSetDestination();
+        }
     }
 
 }
