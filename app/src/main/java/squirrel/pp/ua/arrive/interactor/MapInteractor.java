@@ -23,12 +23,18 @@ import squirrel.pp.ua.arrive.R;
 import squirrel.pp.ua.arrive.TrackService;
 import squirrel.pp.ua.arrive.utils.PreferencesUtils;
 
+import static squirrel.pp.ua.arrive.TrackService.ACTION_START_TRACK;
+
 public class MapInteractor {
+    public static final String KEY_TARGET_LAT = "TargetLat";
+    public static final String KEY_TARGET_LNG = "TargetLng";
+    public static final String KEY_TARGET_RADIUS = "TargetRadius";
 
     @Inject
     PreferencesUtils preferences;
 
-    Context context;
+    private Context context;
+    private Intent serviceIntent;
 
     private GoogleMap map;
     private TargetDestination destination;
@@ -42,7 +48,7 @@ public class MapInteractor {
 
     public void initMap(GoogleMap googleMap) throws SecurityException {
         map = googleMap;
-//        int typeMap = preferences.getTypeMap();
+//        int typeMap = preferences.getTypeMap();//TODO
         int typeMap = 4;//TODO
         map.setMapType(typeMap);
 
@@ -82,14 +88,17 @@ public class MapInteractor {
         if (destination == null) {
             throw new NoSetDestinationException();
         }
-        Intent intent = new Intent(context, TrackService.class);
-        intent.putExtra("TargetPosition", destination.position);
-        intent.putExtra("TargetRadius", destination.radius);
-        context.startService(intent);
+
+        serviceIntent = new Intent(context, TrackService.class);
+        serviceIntent.setAction(ACTION_START_TRACK);
+        serviceIntent.putExtra(KEY_TARGET_LAT, destination.position.latitude);
+        serviceIntent.putExtra(KEY_TARGET_LNG, destination.position.longitude);
+        serviceIntent.putExtra(KEY_TARGET_RADIUS, destination.radius);
+        context.startService(serviceIntent);
     }
 
     public void traceOff() {
-
+        context.stopService(serviceIntent);
     }
 
     private static class TargetDestination {

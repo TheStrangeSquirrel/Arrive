@@ -9,5 +9,7 @@
     <string name="pref_Vibro">Vibration</string>
     <string name="pref_loopPlay">Loop Play</string>
     <string name="pref_timePlays">Play time</string>
-    <string name="pref_ringtone">Ringtone</string>
+    <string name="pref_ringtone" translatable="false">Ringtone</string>
+    <string name="notification_text">Is tracking the distance to the target</string>
+    <string name="stop_check">Stop tracking</string>
 </resources>

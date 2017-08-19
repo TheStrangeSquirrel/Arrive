@@ -8,6 +8,7 @@ public class ComponentManager {
     private Context context;
     private AppComponent appComponent;
     private MapComponent mapComponent;
+    private ServiceComponent serviceComponent;
     private MapIteractorComponent mapIteractorComponent;
 
     public ComponentManager(Context context) {
@@ -29,6 +30,13 @@ public class ComponentManager {
             mapComponent = DaggerMapComponent.builder().appComponent(appComponent).mapViewModule(mapViewModule).build();
         }
         return mapComponent;
+    }
+
+    public ServiceComponent getServiceComponent() {
+        if (serviceComponent == null) {
+            serviceComponent = appComponent.subComponent(new ServiceModule());
+        }
+        return serviceComponent;
     }
 
     public MapIteractorComponent getMapIteratorComponent() {

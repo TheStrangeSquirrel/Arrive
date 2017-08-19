@@ -33,11 +33,24 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="squirrel.pp.ua.arrive.map_activity.actoin_on_arrive" />
             </intent-filter>
         </activity>
         <activity android:name=".view.SettingsActivity" />
+
+        <service
+            android:name=".TrackService"
+            android:enabled="true">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="squirrel.pp.ua.arrive.track_service.stop_track" />
+                <action android:name="squirrel.pp.ua.arrive.track_service.start_track" />
+            </intent-filter>
+        </service>
 
     </application>
 

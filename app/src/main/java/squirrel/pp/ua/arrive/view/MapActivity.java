@@ -31,6 +31,7 @@ import squirrel.pp.ua.arrive.presenter.MainPresenter;
 import squirrel.pp.ua.arrive.utils.PreferencesUtils;
 
 public class MapActivity extends AppCompatActivity implements MapView {
+    public static final String ACTION_ON_ARRIVE = "squirrel.pp.ua.arrive.map_activity.actoin_on_arrive";
 
     @Inject
     MainPresenter presenter;
@@ -40,6 +41,10 @@ public class MapActivity extends AppCompatActivity implements MapView {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        String action = getIntent().getAction();
+        if (ACTION_ON_ARRIVE.equals(action)) {
+            //TODO
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         views = new ViewHolder();
@@ -172,7 +177,7 @@ public class MapActivity extends AppCompatActivity implements MapView {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (isPermissions(requestCode, permissions, grantResults)) {
-
+//TODO
         }
     }
 

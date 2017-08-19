@@ -10,4 +10,7 @@
     <string name="pref_loopPlay">Зациклить воспроизведение</string>
     <string name="pref_timePlays">Время воспроизведения</string>
     <string name="pref_typeMap">Тип Карты</string>
+    <string name="pref_ringtone">Мелодия</string>
+    <string name="notification_text">Идет отслеживание дистанции до цели</string>
+    <string name="stop_check">Остановить проверку</string>
 </resources>

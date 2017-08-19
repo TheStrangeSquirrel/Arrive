@@ -7,6 +7,7 @@ import squirrel.pp.ua.arrive.inject.ComponentManager;
 
 
 public class App extends Application {
+    public static final String LOG_TAG = "Squirrel";
     private static ComponentManager componentManager;
 
     public static ComponentManager getComponentManager() {
