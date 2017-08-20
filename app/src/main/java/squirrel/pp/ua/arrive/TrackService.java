@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import squirrel.pp.ua.arrive.data.GPSUtil;
 import squirrel.pp.ua.arrive.view.MapActivity;
 
+import static squirrel.pp.ua.arrive.AlarmService.ACTION_START_ALARM;
 import static squirrel.pp.ua.arrive.App.LOG_TAG;
 import static squirrel.pp.ua.arrive.interactor.MapInteractor.KEY_TARGET_LAT;
 import static squirrel.pp.ua.arrive.interactor.MapInteractor.KEY_TARGET_LNG;
@@ -67,9 +68,9 @@ public class TrackService extends Service implements GPSUtil.OnArriveListeners {
 
     private Notification builderNotification() {
         Notification.Builder builder = new Notification.Builder(this)
-                .setSmallIcon(R.drawable.marker)
+                .setSmallIcon(R.drawable.marker)//TODO
                 .setContentTitle(getResources().getString(R.string.app_name))
-                .setContentText(getResources().getString(R.string.notification_text))
+                .setContentText(getResources().getString(R.string.check_notification_text))
                 .addAction(R.drawable.common_full_open_on_phone
                         , getString(R.string.stop_check), buildStopTrackPNotificationIntent())//TODO icon
                 .setContentIntent(buildPNotificationIntent());
@@ -106,6 +107,9 @@ public class TrackService extends Service implements GPSUtil.OnArriveListeners {
     public void onArrive() {
         Log.d(LOG_TAG, "onArrive()");
         Toast.makeText(this, "onArrive", Toast.LENGTH_LONG).show();//TEST
+        Intent intent = new Intent(this, AlarmService.class);
+        intent.setAction(ACTION_START_ALARM);
+        startService(intent);
         stopForeground(true);
         stopSelf();
     }

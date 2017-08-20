@@ -13,11 +13,9 @@ import javax.inject.Inject;
 public class PreferencesUtils {
     private final SharedPreferences settings;
     private ExecutorService executor;
-    private Context context;
 
     @Inject
     public PreferencesUtils(Context context) {
-        this.context = context;
         settings = PreferenceManager.getDefaultSharedPreferences(context);
         executor = Executors.newSingleThreadExecutor();
     }

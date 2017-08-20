@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="squirrel.pp.ua.arrive">
 
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
@@ -34,8 +33,11 @@
             android:theme="@style/AppTheme">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
+
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <action android:name="squirrel.pp.ua.arrive.map_activity.actoin_on_arrive" />
             </intent-filter>
         </activity>
@@ -51,7 +53,10 @@
                 <action android:name="squirrel.pp.ua.arrive.track_service.start_track" />
             </intent-filter>
         </service>
-
+        <service
+            android:name=".AlarmService"
+            android:enabled="true"
+            android:exported="false"></service>
     </application>
 
 </manifest>

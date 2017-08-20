@@ -5,6 +5,7 @@ import android.content.Context;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import squirrel.pp.ua.arrive.AlarmService;
 import squirrel.pp.ua.arrive.data.GPSUtil;
 import squirrel.pp.ua.arrive.interactor.MapInteractor;
 import squirrel.pp.ua.arrive.utils.PreferencesUtils;
@@ -21,4 +22,5 @@ public interface AppComponent {
 
     void inject(GPSUtil gps);
 
+    void inject(AlarmService alarmService);
 }

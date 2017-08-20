@@ -2,7 +2,6 @@ package squirrel.pp.ua.arrive;
 
 import android.app.Application;
 
-import squirrel.pp.ua.arrive.inject.AppComponent;
 import squirrel.pp.ua.arrive.inject.ComponentManager;
 
 
@@ -18,13 +17,10 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         initAppComponent();
-
     }
 
     private void initAppComponent() {
         componentManager = new ComponentManager(this);
-        AppComponent appComponent = componentManager.getAppComponent();
-
     }
 
 }

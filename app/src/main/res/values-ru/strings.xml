@@ -11,6 +11,7 @@
     <string name="pref_timePlays">Время воспроизведения</string>
     <string name="pref_typeMap">Тип Карты</string>
     <string name="pref_ringtone">Мелодия</string>
-    <string name="notification_text">Идет отслеживание дистанции до цели</string>
+    <string name="check_notification_text">Идет отслеживание дистанции до цели</string>
     <string name="stop_check">Остановить проверку</string>
+    <string name="alarm_notification_text">Прибыл!!!</string>
 </resources>
