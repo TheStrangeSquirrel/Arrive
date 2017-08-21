@@ -3,11 +3,13 @@ package squirrel.pp.ua.arrive;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.IBinder;
+import android.os.Vibrator;
 import android.util.Log;
 
 import java.io.IOException;
@@ -25,11 +27,17 @@ public class AlarmService extends Service {
     @Inject
     PreferencesUtils preferences;
     private MediaPlayer mediaPlayer;
+    private Vibrator vibrator;
 
     public AlarmService() {
         App.getComponentManager().getAppComponent().inject(this);
         mediaPlayer = new MediaPlayer();
+    }
 
+    @Override
+    public void onCreate() {
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        super.onCreate();
     }
 
     @Override
@@ -76,7 +84,8 @@ public class AlarmService extends Service {
 
     private void startPlay() {
         if (preferences.getVibroEnabled()) {
-
+            long[] pattern = {500, 500, 500, 1000, 700, 1000, 700, 2000};
+            vibrator.vibrate(pattern, 3);
         }
         Uri uri = preferences.getRingtone();
         mediaPlayer.setLooping(preferences.getLoopPlayEnabled());
@@ -110,6 +119,7 @@ public class AlarmService extends Service {
     }
 
     private void releaseMP() {
+        vibrator.cancel();
         if (mediaPlayer != null) {
             try {
                 mediaPlayer.release();
