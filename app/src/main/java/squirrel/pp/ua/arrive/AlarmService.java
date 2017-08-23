@@ -10,6 +10,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.IBinder;
 import android.os.Vibrator;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
 import java.io.IOException;
@@ -59,10 +60,12 @@ public class AlarmService extends Service {
     }
 
     private Notification builderNotification() {
-        Notification.Builder builder = new Notification.Builder(this)
+        android.support.v4.app.NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.marker)//TODO
                 .setContentTitle(getResources().getString(R.string.app_name))
                 .setContentText(getResources().getString(R.string.alarm_notification_text))
+                .setPriority(Notification.PRIORITY_HIGH)
+                .setDefaults(Notification.DEFAULT_VIBRATE)
                 .addAction(R.drawable.common_full_open_on_phone
                         , getString(R.string.dismiss), buildStopAlarmPNotificationIntent())//TODO icon
                 .setContentIntent(buildPNotificationIntent());
@@ -89,7 +92,7 @@ public class AlarmService extends Service {
         }
         Uri uri = preferences.getRingtone();
         mediaPlayer.setLooping(preferences.getLoopPlayEnabled());
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_RING);
         try {
             mediaPlayer.setDataSource(this, uri);
             mediaPlayer.prepare();

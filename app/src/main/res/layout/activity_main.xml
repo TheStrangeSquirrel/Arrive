@@ -28,7 +28,6 @@
         android:layout_marginTop="20dp"
         android:background="#e3f9ea"
         android:max="10000"
-        android:min="900"
         android:progressDrawable="@drawable/red_scrubber_progress"
         android:thumb="@drawable/red_scrubber_control"
         app:layout_constraintBottom_toBottomOf="parent"

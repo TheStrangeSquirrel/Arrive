@@ -9,4 +9,5 @@ import squirrel.pp.ua.arrive.view.MapActivity;
 public interface MapComponent {
     void inject(MapActivity mapActivity);
     void inject(MapPresenterImpl presenter);
+
 }

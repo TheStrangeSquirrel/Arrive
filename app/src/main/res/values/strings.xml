@@ -14,4 +14,5 @@
     <string name="stop_check">Stop tracking</string>
     <string name="alarm_notification_text">Arrive!!!</string>
     <string name="dismiss">Dismiss</string>
+    <string name="nead_permission">For the program you need permission to get location.</string>
 </resources>

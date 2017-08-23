@@ -14,4 +14,6 @@ public interface MainPresenter {
     void distanceChanged(int distance);
 
     void onTraceSwitch(boolean b);
+
+    void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults);
 }

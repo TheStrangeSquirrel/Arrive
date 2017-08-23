@@ -55,15 +55,22 @@ public class TrackService extends Service implements GPSUtil.OnArriveListeners {
         return START_NOT_STICKY;
     }
 
-    private void stopService() {
-        gpsUtil.stopCheckingDistance();
-        stopForeground(true);
-        stopSelf();
-    }
-
     private void toForeground() {
         Notification notification = builderNotification();
         startForeground(5555, notification);
+    }
+
+    private Location buildLocation(Intent intent) {
+        double lat = intent.getExtras().getDouble(KEY_TARGET_LAT);
+        double lng = intent.getExtras().getDouble(KEY_TARGET_LNG);
+        Location location = new Location("");
+        location.setLatitude(lat);
+        location.setLongitude(lng);
+        return location;
+    }
+
+    private void checkDistance(Location markerLocation, double targetDistance) {
+        gpsUtil.checkingDistance(markerLocation, targetDistance, this);
     }
 
     private Notification builderNotification() {
@@ -84,23 +91,16 @@ public class TrackService extends Service implements GPSUtil.OnArriveListeners {
         return PendingIntent.getService(this, 0, intent, 0);
     }
 
+    private void stopService() {
+        gpsUtil.stopCheckingDistance();
+        stopForeground(true);
+        stopSelf();
+    }
+
     private PendingIntent buildPNotificationIntent() {
         Intent intent = new Intent(this, MapActivity.class);
 //        intent.setAction(ACTION_ON_ARRIVE);//TODO
         return PendingIntent.getActivity(this, 0, intent, 0);
-    }
-
-    private Location buildLocation(Intent intent) {
-        double lat = intent.getExtras().getDouble(KEY_TARGET_LAT);
-        double lng = intent.getExtras().getDouble(KEY_TARGET_LNG);
-        Location location = new Location("");
-        location.setLatitude(lat);
-        location.setLongitude(lng);
-        return location;
-    }
-
-    private void checkDistance(Location markerLocation, double targetDistance) {
-        gpsUtil.checkingDistance(markerLocation, targetDistance, this);
     }
 
     @Override

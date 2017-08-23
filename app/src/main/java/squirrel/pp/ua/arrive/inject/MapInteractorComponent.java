@@ -6,8 +6,7 @@ import squirrel.pp.ua.arrive.presenter.MapPresenterImpl;
 
 @Component(dependencies = AppComponent.class, modules = MapIteractorModule.class)
 @MapScope
-public interface MapIteractorComponent {
+public interface MapInteractorComponent {
     void inject(MapPresenterImpl mapPresenter);
-
     void inject(MapInteractor mapInteractor);
 }

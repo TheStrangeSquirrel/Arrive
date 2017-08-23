@@ -13,12 +13,15 @@ import squirrel.pp.ua.arrive.App;
 import squirrel.pp.ua.arrive.NoSetDestinationException;
 import squirrel.pp.ua.arrive.R;
 import squirrel.pp.ua.arrive.interactor.MapInteractor;
+import squirrel.pp.ua.arrive.interactor.PermissionsInteractor;
 import squirrel.pp.ua.arrive.view.MapView;
 import squirrel.pp.ua.arrive.view.SettingsActivity;
 
 public class MapPresenterImpl implements MainPresenter {
     @Inject
     MapInteractor mapInteractor;
+
+    PermissionsInteractor permissionsInteractor;
 
     private MapView view;
 
@@ -30,6 +33,8 @@ public class MapPresenterImpl implements MainPresenter {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         inject();
+        permissionsInteractor = new PermissionsInteractor(view);
+        permissionsInteractor.checkAndTryTakeLocationPermission();
     }
 
     private void inject() {
@@ -76,6 +81,11 @@ public class MapPresenterImpl implements MainPresenter {
 
         } else
             mapInteractor.traceOff();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        permissionsInteractor.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     private void tryTraceOn() {

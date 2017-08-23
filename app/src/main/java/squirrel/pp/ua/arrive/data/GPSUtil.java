@@ -2,6 +2,7 @@ package squirrel.pp.ua.arrive.data;
 
 import android.content.Context;
 import android.location.Location;
+import android.os.Looper;
 import android.util.Log;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -55,7 +56,15 @@ public class GPSUtil {
                 }
             }
         };
-        fusedLocationClient.requestLocationUpdates(locationRequest, callback, null);
+        new Thread(() -> {
+            while (true) {
+                Looper.prepare();
+                fusedLocationClient.requestLocationUpdates(locationRequest, callback, null);
+                Looper.loop();
+//                Thread.
+            }
+        }).start();
+
     }
 
     public void stopCheckingDistance() {

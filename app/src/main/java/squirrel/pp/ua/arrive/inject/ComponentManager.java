@@ -9,7 +9,7 @@ public class ComponentManager {
     private AppComponent appComponent;
     private MapComponent mapComponent;
     private ServiceComponent serviceComponent;
-    private MapIteractorComponent mapIteractorComponent;
+    private MapInteractorComponent mapInteractorComponent;
 
     public ComponentManager(Context context) {
         this.context = context;
@@ -39,10 +39,10 @@ public class ComponentManager {
         return serviceComponent;
     }
 
-    public MapIteractorComponent getMapIteratorComponent() {
-        if (mapIteractorComponent == null) {
-            mapIteractorComponent = DaggerMapIteractorComponent.builder().appComponent(appComponent).build();
+    public MapInteractorComponent getMapIteratorComponent() {
+        if (mapInteractorComponent == null) {
+            mapInteractorComponent = DaggerMapInteractorComponent.builder().appComponent(appComponent).build();
         }
-        return mapIteractorComponent;
+        return mapInteractorComponent;
     }
 }

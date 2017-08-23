@@ -1,14 +1,10 @@
 package squirrel.pp.ua.arrive.view;
 
-import android.Manifest;
 import android.app.Activity;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSeekBar;
 import android.support.v7.widget.Toolbar;
@@ -52,7 +48,6 @@ public class MapActivity extends AppCompatActivity implements MapView {
         inject();
         presenter.onCreate(savedInstanceState);
         initViews();
-        checkAndTryTakeLocationPermission();
     }
 
     @Override
@@ -156,50 +151,21 @@ public class MapActivity extends AppCompatActivity implements MapView {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem item = menu.findItem(R.id.sTrace);
-        views.sTrace = item.getActionView().findViewById(R.id.switchForActionBar);
+        views.sTrace = (Switch) item.getActionView().findViewById(R.id.switchForActionBar);
         initTrace();
         return super.onPrepareOptionsMenu(menu);
-    }
-
-    public void checkAndTryTakeLocationPermission() {
-        final int REQUEST_CODE_LOCATION = 0;
-        final String[] necessaryPermission = {Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION};
-        if (isNotPermission((necessaryPermission[0]))) {
-            ActivityCompat.requestPermissions(this, necessaryPermission, REQUEST_CODE_LOCATION);
-        }
-    }
-
-    private boolean isNotPermission(String permission) {
-        return ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED;
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (isPermissions(requestCode, permissions, grantResults)) {
-//TODO
-        }
-    }
-
-    private boolean isPermissions(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        final int REQUEST_CODE_LOCATION = 0;
-        if (requestCode == REQUEST_CODE_LOCATION) {
-            if (permissions.length != 2) {
-                if (permissions[0] == Manifest.permission.ACCESS_FINE_LOCATION &&
-                        grantResults[0] == PackageManager.PERMISSION_GRANTED ||
-                        permissions[1] == Manifest.permission.ACCESS_COARSE_LOCATION &&
-                                grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         presenter.onOptionsItemSelected(item.getItemId());
         return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        presenter.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     private void inject() {
@@ -215,6 +181,5 @@ public class MapActivity extends AppCompatActivity implements MapView {
         AppCompatSeekBar distanceRegulator;
         TextView distance;
     }
-
 
 }
