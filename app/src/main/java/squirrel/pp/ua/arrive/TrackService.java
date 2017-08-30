@@ -22,10 +22,13 @@ import static squirrel.pp.ua.arrive.interactor.MapInteractor.KEY_TARGET_LNG;
 import static squirrel.pp.ua.arrive.interactor.MapInteractor.KEY_TARGET_RADIUS;
 
 public class TrackService extends Service implements GPSUtil.OnArriveListeners {
-    public static final String ACTION_STOP_TRACK = "squirrel.pp.ua.arrive.track_service.stop_track";
-    public static final String ACTION_START_TRACK = "squirrel.pp.ua.arrive.track_service.start_track";
+    public static final String ACTION_STOP_TRACK = "squirrel.pp.ua.arrive.track_service.STOP_TRACK";
+    public static final String ACTION_START_TRACK = "squirrel.pp.ua.arrive.track_service.START_TRACK";
     @Inject
     GPSUtil gpsUtil;
+
+    private Location targetLocation;
+    private double targetRadius;
 
     public TrackService() {
         inject();
@@ -48,9 +51,9 @@ public class TrackService extends Service implements GPSUtil.OnArriveListeners {
             stopService();
         } else if (ACTION_START_TRACK.equals(action)) {
             toForeground();
-            Location location = buildLocation(intent);
-            double radius = intent.getExtras().getDouble(KEY_TARGET_RADIUS);
-            checkDistance(location, radius);
+            targetLocation = buildLocation(intent);
+            targetRadius = intent.getExtras().getDouble(KEY_TARGET_RADIUS);
+            gpsUtil.startCheckingDistanceListeners(targetLocation, targetRadius, this);
         }
         return START_NOT_STICKY;
     }
@@ -67,10 +70,6 @@ public class TrackService extends Service implements GPSUtil.OnArriveListeners {
         location.setLatitude(lat);
         location.setLongitude(lng);
         return location;
-    }
-
-    private void checkDistance(Location markerLocation, double targetDistance) {
-        gpsUtil.checkingDistance(markerLocation, targetDistance, this);
     }
 
     private Notification builderNotification() {
@@ -99,7 +98,7 @@ public class TrackService extends Service implements GPSUtil.OnArriveListeners {
 
     private PendingIntent buildPNotificationIntent() {
         Intent intent = new Intent(this, MapActivity.class);
-//        intent.setAction(ACTION_ON_ARRIVE);//TODO
+//        intent.setAction();//TODO
         return PendingIntent.getActivity(this, 0, intent, 0);
     }
 

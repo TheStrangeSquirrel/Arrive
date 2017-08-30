@@ -1,8 +1,8 @@
 package squirrel.pp.ua.arrive.view;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +26,8 @@ import squirrel.pp.ua.arrive.inject.MapComponent;
 import squirrel.pp.ua.arrive.presenter.MainPresenter;
 import squirrel.pp.ua.arrive.utils.PreferencesUtils;
 
+import static squirrel.pp.ua.arrive.view.PermissionsActivity.ACTION_PERMISSION;
+
 public class MapActivity extends AppCompatActivity implements MapView {
     public static final String ACTION_ON_ARRIVE = "squirrel.pp.ua.arrive.map_activity.actoin_on_arrive";
 
@@ -34,11 +36,14 @@ public class MapActivity extends AppCompatActivity implements MapView {
     @Inject
     PreferencesUtils preferences;
     private ViewHolder views;
+    private boolean onArrive;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         String action = getIntent().getAction();
+        isOnArrive();
         if (ACTION_ON_ARRIVE.equals(action)) {
+
             //TODO
         }
         super.onCreate(savedInstanceState);
@@ -46,8 +51,22 @@ public class MapActivity extends AppCompatActivity implements MapView {
         views = new ViewHolder();
         findViews();
         inject();
-        presenter.onCreate(savedInstanceState);
-        initViews();
+        if (presenter.hasPermissions()) {
+            initViews();
+        } else {
+            callPermissionsActivity();
+        }
+    }
+
+    public boolean isOnArrive() {
+
+        return onArrive;
+    }
+
+    private void callPermissionsActivity() {
+        Intent intent = new Intent(this, PermissionsActivity.class);
+        intent.setAction(ACTION_PERMISSION);
+        startActivity(intent);
     }
 
     @Override
@@ -72,7 +91,6 @@ public class MapActivity extends AppCompatActivity implements MapView {
         views.fActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
         views.distance = (TextView) findViewById(R.id.tvDistance);
         views.distanceRegulator = (AppCompatSeekBar) findViewById(R.id.sbDistance);
-
     }
 
     private void initViews() {
@@ -160,12 +178,6 @@ public class MapActivity extends AppCompatActivity implements MapView {
     public boolean onOptionsItemSelected(MenuItem item) {
         presenter.onOptionsItemSelected(item.getItemId());
         return true;
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        presenter.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     private void inject() {

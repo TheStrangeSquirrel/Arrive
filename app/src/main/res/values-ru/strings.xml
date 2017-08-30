@@ -14,4 +14,10 @@
     <string name="check_notification_text">Идет отслеживание дистанции до цели</string>
     <string name="stop_check">Остановить проверку</string>
     <string name="alarm_notification_text">Прибыл!!!</string>
+    <string name="action_getPermissions">Получить разрешения</string>
+    <string name="need_location">Arrive чтобы продолжить нужно ваше местоположение.</string>
+    <string name="action_settings">Настройки</string>
+    <string name="ifDeniedPermission">Если вы ранее отказали в разрешении, можете включить его в настройках приложения</string>
+    <string name="action_openApplicationSettings">Открыть настройки приложения</string>
+    <string name="permissionsNotReceivedMassage">Permissions not received massage</string>
 </resources>

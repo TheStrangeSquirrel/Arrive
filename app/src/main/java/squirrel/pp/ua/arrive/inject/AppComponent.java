@@ -8,6 +8,7 @@ import dagger.Component;
 import squirrel.pp.ua.arrive.AlarmService;
 import squirrel.pp.ua.arrive.data.GPSUtil;
 import squirrel.pp.ua.arrive.interactor.MapInteractor;
+import squirrel.pp.ua.arrive.interactor.PermissionsInteractor;
 import squirrel.pp.ua.arrive.utils.PreferencesUtils;
 
 @Singleton
@@ -18,9 +19,11 @@ public interface AppComponent {
 
     ServiceComponent subComponent(ServiceModule module);
 
-    void inject(MapInteractor iteractor);
+    void inject(MapInteractor interactor);
 
     void inject(GPSUtil gps);
 
     void inject(AlarmService alarmService);
+
+    void inject(PermissionsInteractor permissionsInteractor);
 }

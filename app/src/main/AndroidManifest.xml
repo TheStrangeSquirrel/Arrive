@@ -13,7 +13,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -34,20 +33,24 @@
             android:theme="@style/AppTheme">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
-
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <action android:name="squirrel.pp.ua.arrive.map_activity.actoin_on_arrive" />
             </intent-filter>
         </activity>
         <activity android:name=".view.SettingsActivity" />
+        <activity android:name=".view.PermissionsActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="squirrel.pp.ua.arrive.view.Permission" />
+            </intent-filter>
+        </activity>
 
         <service
             android:name=".TrackService"
             android:enabled="true">
             <intent-filter>
+                <category android:name="android.intent.category.APP_MAPS" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <action android:name="squirrel.pp.ua.arrive.track_service.stop_track" />
                 <action android:name="squirrel.pp.ua.arrive.track_service.start_track" />
@@ -57,6 +60,7 @@
             android:name=".AlarmService"
             android:enabled="true"
             android:exported="false" />
+
     </application>
 
 </manifest>

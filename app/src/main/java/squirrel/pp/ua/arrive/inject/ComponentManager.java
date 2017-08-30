@@ -3,13 +3,14 @@ package squirrel.pp.ua.arrive.inject;
 import android.content.Context;
 
 import squirrel.pp.ua.arrive.view.MapView;
+import squirrel.pp.ua.arrive.view.PermissionsView;
 
 public class ComponentManager {
     private Context context;
     private AppComponent appComponent;
     private MapComponent mapComponent;
+    private PermissionsComponent permissionsComponent;
     private ServiceComponent serviceComponent;
-    private MapInteractorComponent mapInteractorComponent;
 
     public ComponentManager(Context context) {
         this.context = context;
@@ -32,17 +33,18 @@ public class ComponentManager {
         return mapComponent;
     }
 
+    public PermissionsComponent getPermissionsComponent(PermissionsView view) {
+        if (permissionsComponent == null) {
+            PermissionsModule permissionsModule = new PermissionsModule(view);
+            permissionsComponent = DaggerPermissionsComponent.builder().permissionsModule(permissionsModule).build();
+        }
+        return permissionsComponent;
+    }
+
     public ServiceComponent getServiceComponent() {
         if (serviceComponent == null) {
             serviceComponent = appComponent.subComponent(new ServiceModule());
         }
         return serviceComponent;
-    }
-
-    public MapInteractorComponent getMapIteratorComponent() {
-        if (mapInteractorComponent == null) {
-            mapInteractorComponent = DaggerMapInteractorComponent.builder().appComponent(appComponent).build();
-        }
-        return mapInteractorComponent;
     }
 }

@@ -1,0 +1,79 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="168dp"
+        android:layout_height="158dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/map_with_marker" />
+
+    <TextView
+        android:id="@+id/tvNeadPerm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="@string/need_location"
+        android:textAppearance="?android:attr/textAppearanceLargeInverse"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+
+    <TextView
+        android:id="@+id/tvIfDeniedPermission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="@string/ifDeniedPermission"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvNeadPerm"
+        app:layout_constraintVertical_bias="0.191" />
+
+
+    <Button
+        android:id="@+id/bOpenApplicationSettings"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="-1dp"
+        android:text="@string/action_openApplicationSettings"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+        android:textSize="10sp"
+        android:theme="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvIfDeniedPermission" />
+
+    <Button
+        android:id="@+id/bGetPermissions"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:layout_marginRight="25dp"
+        android:text="@string/action_getPermissions"
+        android:theme="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+
+</android.support.constraint.ConstraintLayout>

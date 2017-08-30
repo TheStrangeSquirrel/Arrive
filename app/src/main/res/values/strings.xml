@@ -9,10 +9,16 @@
     <string name="pref_Vibro">Vibration</string>
     <string name="pref_loopPlay">Loop Play</string>
     <string name="pref_timePlays">Play time</string>
-    <string name="pref_ringtone" translatable="false">Ringtone</string>
+    <string name="pref_ringtone">Ringtone</string>
     <string name="check_notification_text">Is tracking the distance to the target</string>
     <string name="stop_check">Stop tracking</string>
     <string name="alarm_notification_text">Arrive!!!</string>
     <string name="dismiss">Dismiss</string>
-    <string name="nead_permission">For the program you need permission to get location.</string>
+    <string name="need_location">Arrive need you permission to get location.</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="action_getPermissions">Get permissions</string>
+    <string name="ifDeniedPermission">If you have previously denied permission</string>
+    <string name="action_openApplicationSettings">Open application settings</string>
+    <string name="permissionsNotReceivedMassage">Permissions not received massage</string>
 </resources>

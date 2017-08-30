@@ -17,11 +17,13 @@ import static squirrel.pp.ua.arrive.App.LOG_TAG;
 
 
 public class GPSUtil {
+    private static final long LOCATION_UPDATE_FASTEST_INTERVAL = 1000 * 2;
+    private static final long LOCATION_UPDATE_INTERVAL = 1000 * 5;
+
+    private LocationCallback locationCallback;
     private Context context;
     private LocationRequest locationRequest;
-
     private FusedLocationProviderClient fusedLocationClient;
-    private LocationCallback callback;
 
     @Inject
     public GPSUtil(Context context) {
@@ -36,39 +38,36 @@ public class GPSUtil {
 
     private LocationRequest buildRequest() {
         LocationRequest locationRequest = new LocationRequest();
-        locationRequest.setInterval(1000 * 5);
-        locationRequest.setFastestInterval(1000 * 2);
-        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        locationRequest.setInterval(LOCATION_UPDATE_INTERVAL);
+        locationRequest.setFastestInterval(LOCATION_UPDATE_FASTEST_INTERVAL);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         return locationRequest;
     }
 
-
-    public void checkingDistance(Location markerLocation, double targetRadius, OnArriveListeners listeners) throws SecurityException {
-        callback = new LocationCallback() {
+    public void startCheckingDistanceListeners(Location targetLocation, double targetRadius, OnArriveListeners listeners) throws SecurityException {
+        locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 Location lastLocation = locationResult.getLastLocation();
-                float distanceTo = markerLocation.distanceTo(lastLocation);
-                Log.d(LOG_TAG, distanceTo + "");
-                if (distanceTo < targetRadius) {
+                if (isArrive(targetLocation, lastLocation, targetRadius)) {
                     listeners.onArrive();
-                    fusedLocationClient.removeLocationUpdates(this);
                 }
             }
         };
-        new Thread(() -> {
-            while (true) {
-                Looper.prepare();
-                fusedLocationClient.requestLocationUpdates(locationRequest, callback, null);
-                Looper.loop();
-//                Thread.
-            }
-        }).start();
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
+    }
 
+
+    private boolean isArrive(Location targetLocation, Location lastLocation, double targetRadius) throws SecurityException {
+        float distanceTo = lastLocation.distanceTo(targetLocation);
+        Log.d(LOG_TAG, "Distance to " + distanceTo);
+        return distanceTo < targetRadius;
     }
 
     public void stopCheckingDistance() {
-        fusedLocationClient.removeLocationUpdates(callback);
+        if (locationCallback != null) {
+            fusedLocationClient.removeLocationUpdates(locationCallback);
+        }
     }
 
     public interface OnArriveListeners {

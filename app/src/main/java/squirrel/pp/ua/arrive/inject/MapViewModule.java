@@ -1,20 +1,27 @@
 package squirrel.pp.ua.arrive.inject;
 
+import android.app.Activity;
+
 import dagger.Module;
 import dagger.Provides;
 import squirrel.pp.ua.arrive.view.MapView;
 
 @Module
 @MapScope
-public class MapViewModule {
+class MapViewModule {
     private MapView view;
 
-    public MapViewModule(MapView view) {
+    MapViewModule(MapView view) {
         this.view = view;
     }
 
     @Provides
     public MapView getView() {
         return view;
+    }
+
+    @Provides
+    public Activity getActivity() {
+        return view.getActivity();
     }
 }
