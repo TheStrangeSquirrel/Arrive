@@ -20,8 +20,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 
 import javax.inject.Inject;
 
+import squirrel.pp.ua.arrive.AlarmService;
 import squirrel.pp.ua.arrive.App;
 import squirrel.pp.ua.arrive.R;
+import squirrel.pp.ua.arrive.TrackService;
 import squirrel.pp.ua.arrive.inject.MapComponent;
 import squirrel.pp.ua.arrive.presenter.MainPresenter;
 import squirrel.pp.ua.arrive.utils.PreferencesUtils;
@@ -29,23 +31,15 @@ import squirrel.pp.ua.arrive.utils.PreferencesUtils;
 import static squirrel.pp.ua.arrive.view.PermissionsActivity.ACTION_PERMISSION;
 
 public class MapActivity extends AppCompatActivity implements MapView {
-    public static final String ACTION_ON_ARRIVE = "squirrel.pp.ua.arrive.map_activity.actoin_on_arrive";
 
     @Inject
     MainPresenter presenter;
     @Inject
     PreferencesUtils preferences;
     private ViewHolder views;
-    private boolean onArrive;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        String action = getIntent().getAction();
-        isOnArrive();
-        if (ACTION_ON_ARRIVE.equals(action)) {
-
-            //TODO
-        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         views = new ViewHolder();
@@ -58,9 +52,13 @@ public class MapActivity extends AppCompatActivity implements MapView {
         }
     }
 
-    public boolean isOnArrive() {
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
 
-        return onArrive;
+    public boolean isOnArrive() {
+        return TrackService.isExist.get() || AlarmService.isExist.get();
     }
 
     private void callPermissionsActivity() {
@@ -82,7 +80,7 @@ public class MapActivity extends AppCompatActivity implements MapView {
     @Override
     public void massageSetDestination() {
         views.sTrace.setChecked(false);
-        Toast.makeText(this, "Ned Set Destination", Toast.LENGTH_SHORT).show(); //TODO
+        Toast.makeText(this, "Ned Set Destination", Toast.LENGTH_SHORT).show();
     }
 
     private void findViews() {
@@ -101,7 +99,6 @@ public class MapActivity extends AppCompatActivity implements MapView {
     }
 
     private void initTrace() {
-        views.sTrace.setChecked(false);
         views.sTrace.setOnCheckedChangeListener((compoundButton, b) -> presenter.onTraceSwitch(b));
     }
 
@@ -171,6 +168,11 @@ public class MapActivity extends AppCompatActivity implements MapView {
         MenuItem item = menu.findItem(R.id.sTrace);
         views.sTrace = (Switch) item.getActionView().findViewById(R.id.switchForActionBar);
         initTrace();
+        if (isOnArrive()) {
+            views.sTrace.setChecked(true);
+        } else {
+            views.sTrace.setChecked(false);
+        }
         return super.onPrepareOptionsMenu(menu);
     }
 

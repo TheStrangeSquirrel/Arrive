@@ -14,6 +14,7 @@ import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.inject.Inject;
 
@@ -23,8 +24,10 @@ import squirrel.pp.ua.arrive.view.MapActivity;
 import static squirrel.pp.ua.arrive.App.LOG_TAG;
 
 public class AlarmService extends Service {
-    public static final String ACTION_STOP_ALARM = "squirrel.pp.ua.arrive.track_alarm.stop_alarm";
-    public static final String ACTION_START_ALARM = "squirrel.pp.ua.arrive.track_alarm.start_alarm";
+    public static final String ACTION_STOP_ALARM = "squirrel.pp.ua.arrive.track_alarm.STOP_ALARM";
+    public static final String ACTION_START_ALARM = "squirrel.pp.ua.arrive.track_alarm.START_ALARM";
+    public static final AtomicBoolean isExist = new AtomicBoolean(false);
+
     @Inject
     PreferencesUtils preferences;
     private MediaPlayer mediaPlayer;
@@ -38,6 +41,7 @@ public class AlarmService extends Service {
     @Override
     public void onCreate() {
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        isExist.set(true);
         super.onCreate();
     }
 
@@ -117,8 +121,9 @@ public class AlarmService extends Service {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         releaseMP();
+        isExist.set(false);
+        super.onDestroy();
     }
 
     private void releaseMP() {

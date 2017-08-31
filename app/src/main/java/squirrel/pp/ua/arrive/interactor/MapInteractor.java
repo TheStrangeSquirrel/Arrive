@@ -13,6 +13,7 @@ import android.support.v4.content.ContextCompat;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
@@ -37,13 +38,18 @@ public class MapInteractor {
 
     private Intent serviceIntent;
 
+
     private GoogleMap map;
     private TargetDestination destination;
-    private int distance = 1000;
+
+    private PreferencesUtils preferences;
+
+    private int distance;
 
     @Inject
     public MapInteractor(Activity activity, PreferencesUtils preferences) {
         this.activity = activity;
+        this.preferences = preferences;
     }
 
     public boolean hasPermissions() {
@@ -51,22 +57,33 @@ public class MapInteractor {
         return permission == PackageManager.PERMISSION_GRANTED;
     }
 
-    public void initMap(GoogleMap googleMap) throws SecurityException {
+    public void initMap(GoogleMap googleMap) {
         map = googleMap;
-//        int typeMap = preferences.getTypeMap();//TODO
-        int typeMap = 4;//TODO
-        map.setMapType(typeMap);
-
-        map.setMyLocationEnabled(true);
-        UiSettings uiSettings = map.getUiSettings();
-        uiSettings.setMapToolbarEnabled(false);
+        initMapInterface();
+        initMarker();
         initCamera();
         map.setOnMapLongClickListener(latLng -> {
+            preferences.saveLastMarkerPosition(latLng);
             if (destination == null) {
                 destination = new TargetDestination(googleMap, latLng, distance);
             }
             destination.setPosition(latLng);
         });
+    }
+
+    private void initMapInterface() throws SecurityException {
+        int typeMap = preferences.getTypeMap();
+        map.setMapType(typeMap);
+        map.setMyLocationEnabled(true);
+        UiSettings uiSettings = map.getUiSettings();
+        uiSettings.setMapToolbarEnabled(false);
+    }
+
+    private void initMarker() {
+        LatLng latLng = preferences.getLastMarkerPosition();
+        if (latLng != null) {
+            destination = new TargetDestination(map, latLng, distance);
+        }
     }
 
     private void initCamera() throws SecurityException {
@@ -77,7 +94,11 @@ public class MapInteractor {
         if (location != null) {
             latLng = new LatLng(location.getLatitude(), location.getLongitude());
         } else {
-            latLng = new LatLng(-34, 151);//  Sydney
+            if (destination != null) {
+                latLng = destination.position;
+            } else {
+                latLng = new LatLng(-34, 151);//  Sydney
+            }
         }
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
     }
@@ -112,16 +133,16 @@ public class MapInteractor {
         private Marker marker;
         private Circle circle;
 
-        TargetDestination(GoogleMap map, LatLng position, double radiusCircle) {
-            this.position = position;
-            this.radius = radiusCircle;
+        TargetDestination(GoogleMap map, LatLng targetPosition, double targetRadius) {
+            this.position = targetPosition;
+            this.radius = targetRadius;
             MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(position);
-//            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker));
+            markerOptions.position(targetPosition);
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker));
 
             CircleOptions circleOptions = new CircleOptions();
-            circleOptions.center(position);
-            circleOptions.radius(radiusCircle);
+            circleOptions.center(targetPosition);
+            circleOptions.radius(targetRadius);
             circleOptions.fillColor(R.color.fillTargetRadius);
             circleOptions.strokeWidth(1);
 

@@ -10,6 +10,8 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import javax.inject.Inject;
 
 import squirrel.pp.ua.arrive.data.GPSUtil;
@@ -24,6 +26,7 @@ import static squirrel.pp.ua.arrive.interactor.MapInteractor.KEY_TARGET_RADIUS;
 public class TrackService extends Service implements GPSUtil.OnArriveListeners {
     public static final String ACTION_STOP_TRACK = "squirrel.pp.ua.arrive.track_service.STOP_TRACK";
     public static final String ACTION_START_TRACK = "squirrel.pp.ua.arrive.track_service.START_TRACK";
+    public static final AtomicBoolean isExist = new AtomicBoolean(false);
     @Inject
     GPSUtil gpsUtil;
 
@@ -114,8 +117,15 @@ public class TrackService extends Service implements GPSUtil.OnArriveListeners {
     }
 
     @Override
+    public void onCreate() {
+        isExist.set(true);
+        super.onCreate();
+    }
+
+    @Override
     public void onDestroy() {
         gpsUtil.stopCheckingDistance();
+        isExist.set(false);
         super.onDestroy();
     }
 }
